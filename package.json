@@ -1,0 +1,19 @@
+{
+  "name": "bundle",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "concurrently \"cd server && npm run build\" \"cd client && npm run build && cpy --parents --cwd=build ./** ../../build/static\"",
+    "start": "concurrently \"cd server && cross-env DEV=true npm run start\" \"cd client && npm run start\""
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^5.2.0"
+  },
+  "devDependencies": {
+    "cpy-cli": "^3.1.1",
+    "cross-env": "^7.0.2"
+  }
+}
