@@ -18,7 +18,7 @@ export default class Store {
                 .catch(err => {reject(err)})
                 .then(() => {
                     client.socket.on('disconnect', () => {
-                        console.log('disconnected', client.user)
+                        console.log('Store: disconnected', client.user)
                         this._clientStore.removeClient(client)
                         this._roomStore.removeUser(client.user.name)
                     })

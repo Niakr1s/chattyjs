@@ -7,10 +7,10 @@ export default class ClientStore {
         return new Promise((resolve, reject) => {
             const key = client.user.name
             if (this._clients[key] != null) {
-                console.log('Store.addClient rejected', client.user)
+                console.log('ClientStore: rejected user', client.user.name)
                 reject()
             } else {
-                console.log('Store.addClient accepted', client.user)
+                console.log('ClientStore: accepted user', client.user.name)
                 this._clients[key] = client
                 resolve()
             }
