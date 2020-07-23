@@ -12,10 +12,6 @@ export default class Store {
     private _clientStore = new ClientStore()
     private _roomStore = new RoomStore()
 
-    constructor() {
-
-    }
-
     public addClient = (client: Client): Promise<void> => {
         return new Promise((resolve, reject) => {
             this._clientStore.addClient(client)
@@ -35,12 +31,8 @@ export default class Store {
                         let serverMessage = new ServerMessage(clientMessage, new MessageInfo(1, new Date()))
                         let room = this._roomStore.getRoom(clientMessage.room)
                         if (!room) return callback(new EmitResult('no such room'))
-                        let userNames = Object.keys(room)
-                        console.log(`Store: sending message`, serverMessage, `to clients`, userNames)
-                        for (let username of userNames) {
-                            let client = this._clientStore.getClient(username)
-                            client?.socket.emit(ServerMessage.eventName, serverMessage)
-                        }
+                        this._clientStore.emitAll(Object.keys(room), ServerMessage.eventName, serverMessage)
+                        callback(new EmitResult())
                     })
                 })
         })
