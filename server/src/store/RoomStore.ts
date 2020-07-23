@@ -1,7 +1,6 @@
 import User from "../../../client/src/lib/models/User";
 import Room from "../../../client/src/lib/models/Room";
 import events from "events";
-import {emit} from "cluster";
 import {RoomAddedEvt, RoomRemovedEvt} from "../../../client/src/lib/events/RoomEvts";
 
 type RoomType = {
@@ -25,8 +24,14 @@ export default class RoomStore extends events.EventEmitter {
         })
     }
 
-    public getRoom = (room: Room): RoomType | undefined => {
-        return this._rooms[room.name]
+    public getRoom = (roomName: string): RoomType | undefined => {
+        return this._rooms[roomName]
+    }
+
+    public getUsersInRoom = (roomName: string): string[] => {
+        let room = this.getRoom(roomName)
+        if (!room) return []
+        return Object.keys(room)
     }
 
     private addUser = (userName: string, roomName: string) => {
@@ -48,7 +53,7 @@ export default class RoomStore extends events.EventEmitter {
             this._rooms[roomName] = {}
             let evt = new RoomAddedEvt(roomName)
             console.log(`RoomStore: added room ${roomName}`)
-            emit(evt.type(), evt)
+            this.emit(evt.type(), evt)
         }
     }
 
@@ -57,7 +62,7 @@ export default class RoomStore extends events.EventEmitter {
             console.log(`RoomStore: removing room ${roomName}`)
             delete this._rooms[roomName]
             let evt = new RoomRemovedEvt(roomName)
-            emit(evt.type(), evt)
+            this.emit(evt.type(), evt)
         }
     }
 }

@@ -8,6 +8,7 @@ import ClientMessage from "../lib/events/ClientMessage";
 import JoinEvt from "../lib/events/JoinEvt";
 import LoginEvt from "../lib/events/LoginEvt";
 import ServerMessage from "../lib/events/ServerMessage";
+import {RoomAddedEvt, RoomRemovedEvt} from "../lib/events/RoomEvts";
 
 type IState = {
     messages: ServerMessage[],
@@ -84,6 +85,12 @@ class Temp extends React.Component<any, IState> {
         })
         this.socket.on('disconnect', () => {
             this.handleError('disconnected')
+        })
+        this.socket.on(RoomAddedEvt.emitName, (roomAddedEvt: RoomAddedEvt) => {
+            console.log('added room', roomAddedEvt.roomName)
+        })
+        this.socket.on(RoomRemovedEvt.emitName, (roomAddedEvt: RoomRemovedEvt) => {
+            console.log('removed room', roomAddedEvt.roomName)
         })
     }
 

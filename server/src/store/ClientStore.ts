@@ -25,11 +25,15 @@ export default class ClientStore {
         return this._clients[username]
     }
 
-    public emitAll = (userNames: string[], evtName: string, ...evtArgs: any[]) => {
+    public emitUsers = (userNames: string[], evtName: string, ...evtArgs: any[]) => {
         console.log(`ClientStore: sending event`, evtName, `to clients`, userNames)
         for (let userName of userNames) {
             let client = this.getClient(userName)
             client?.socket.emit(evtName, ...evtArgs)
         }
+    }
+
+    public emitAll = (evtName: string, ...evtArgs: any[]) => {
+        return this.emitUsers(Object.keys(this._clients), evtName, ...evtArgs)
     }
 }
