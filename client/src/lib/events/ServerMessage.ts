@@ -4,8 +4,8 @@ import MessageInfo from "../models/MessageInfo";
 class ServerMessage extends ClientMessage{
     public static eventName = 'serverMessage'
 
-    constructor(clientMessage: ClientMessage, public readonly messageInfo: MessageInfo) {
-        super(clientMessage.text, clientMessage.room, clientMessage.user)
+    constructor({text, room, user}: ClientMessage, public readonly messageInfo: MessageInfo) {
+        super(text, room, user)
     }
 
     type(): string {
