@@ -4,7 +4,7 @@ import path from "path";
 
 const DEV = !!process.env.DEV
 
-class ExpressApp {
+class ExpressServer {
     private readonly _app: express.Express = express();
 
     constructor() {
@@ -37,4 +37,4 @@ class ExpressApp {
     }
 }
 
-export default ExpressApp
+export default ExpressServer
